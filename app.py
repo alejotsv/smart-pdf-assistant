@@ -5,7 +5,12 @@ from sentence_transformers import SentenceTransformer
 from rag_engine.llm_interface import get_answer_from_question
 from dotenv import load_dotenv
 
-load_dotenv()
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+# Not needed in Streamlit Cloud
+except ImportError:
+    pass
 
 st.set_page_config(page_title="Smart PDF RAG Assistant", layout="centered")
 st.title("📄 Smart PDF RAG Assistant")

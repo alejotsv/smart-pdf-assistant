@@ -5,11 +5,19 @@ def gpt_classify_topic(question: str, openai_client) -> str:
     """
     system_prompt = (
         "You are an intelligent routing agent. "
-        "Given a question, classify it into one of the following categories based on its content:\n"
-        "- 'constitution': for legal/political questions about U.S. constitutional law or government structure\n"
-        "- 'gdpr': for questions about privacy, data rights, or European data regulations\n"
-        "- 'attention': for technical or AI-related questions involving models, transformers, or deep learning\n\n"
-        "Respond with only the category name."
+        "Given a question, classify it into one of the following categories:\n\n"
+        "- 'constitution': U.S. government structure, amendments, articles, civil rights, laws\n"
+        "- 'gdpr': privacy laws, European data regulations, data subjects, controllers, consent\n"
+        "- 'attention_is_all_you_need': AI models, machine learning, self-attention, encoder-decoder architectures, transformers in NLP\n\n"
+        "Return only the category name.\n\n"
+        "Examples:\n"
+        "Q: What does the Fourth Amendment guarantee? → constitution\n"
+        "Q: What are the rights of a data subject? → gdpr\n"
+        "Q: How does self-attention work in transformers? → attention_is_all_you_need\n"
+        "Q: What is positional encoding? → attention_is_all_you_need\n"
+        "Q: What are transformers in machine learning? → attention_is_all_you_need\n"
+        "Q: Who enforces GDPR? → gdpr\n"
+        "Q: What does Article I describe? → constitution\n"
     )
 
     response = openai_client.chat.completions.create(
@@ -23,6 +31,6 @@ def gpt_classify_topic(question: str, openai_client) -> str:
     )
 
     topic = response.choices[0].message.content.strip().lower()
-    if topic not in {"constitution", "gdpr", "attention"}:
-        return "attention"  # fallback
+    if topic not in {"constitution", "gdpr", "attention_is_all_you_need"}:
+        return "unidentified"  # fallback
     return topic

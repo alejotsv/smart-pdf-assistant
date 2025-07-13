@@ -3,7 +3,6 @@ from openai import OpenAI
 import os
 from sentence_transformers import SentenceTransformer
 from rag_engine.llm_interface import get_answer_from_question
-from dotenv import load_dotenv
 
 try:
     from dotenv import load_dotenv
